@@ -1,0 +1,18 @@
+body{
+  background: #1F2227;
+  color: white;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#name{
+  color: lightblue;
+}
+
+#bio, #img, .serarch{
+  margin-top: 20px;
+}
