@@ -1,39 +1,51 @@
-let input = document.getElementById('input');
-let btn = document.getElementById('btn');
-let urlName = window.location.search || '?username=snypoon';
+const input = document.getElementById('input');
+const btn = document.getElementById('btn');
+const urlName = window.location.search || '?username=snypoon';
+const preloader = document.querySelector('.preloader');
+const active = () => preloader.classList.toggle('active');
 
 const gitHubFinder = (urlName) => {
-  let userName = urlName.split('=')[1];
-  let url = `https://api.github.com/users/${userName}`;
-  let name = document.getElementById('name');
-  let bio = document.getElementById('bio');
-  let img = document.getElementById('img');
-  
-  fetch(url)
+  const userName = urlName.split('=')[1];
+  const name = document.getElementById('name');
+  const url = fetch(`https://api.github.com/users/${userName}`);
+  const bio = document.getElementById('bio');
+  const img = document.getElementById('img');
+  const date = document.getElementById('date');
+  const getDate = new Promise ((resolve) => {
+    setTimeout(() => resolve(date.innerHTML = new Date), 2000);
+   })
+     
+  Promise.all([url, getDate])
+    .then(([response]) => response)
     .then(response => {
       if(response.ok){
-        return response.json()
+        return response.json();
       } else {
-        return alert('"Информация о пользователе не доступна"')
+        alert('"Информация о пользователе не доступна"');
       }
     })
     .then(json => {
-      name.innerHTML = json.name,
-      name.href = json.html_url,
-      bio.innerHTML = json.bio,
-      img.src = json.avatar_url
+      name.innerHTML = json.name;
+      name.href = json.html_url;
+      bio.innerHTML = json.bio;
+      img.src = json.avatar_url;
+    })
+    .finally(() => {
+      setTimeout(() => active(), 500);
     })
     .catch(error => {
-      console.log(error)
+      console.log('Error:', error);
     })
-}
+  }
 
 btn.addEventListener('click', () => {
   gitHubFinder(`?username=${input.value}`);
+  active();
   input.value = "";
 }); 
 
 gitHubFinder(urlName);
+
 
 
 
