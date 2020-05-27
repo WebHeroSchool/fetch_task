@@ -12,7 +12,7 @@ const gitHubFinder = (urlName) => {
   const img = document.getElementById('img');
   const date = document.getElementById('date');
   const getDate = new Promise ((resolve) => {
-    setTimeout(() => resolve(date.innerHTML = new Date), 2000);
+    setTimeout(() => resolve(date.innerHTML = new Date), 1000);
    })
      
   Promise.all([url, getDate])
@@ -31,7 +31,7 @@ const gitHubFinder = (urlName) => {
       img.src = json.avatar_url;
     })
     .finally(() => {
-      setTimeout(() => active(), 500);
+      setTimeout(() => active(), 1000);
     })
     .catch(error => {
       console.log('Error:', error);
@@ -42,6 +42,14 @@ btn.addEventListener('click', () => {
   gitHubFinder(`?username=${input.value}`);
   active();
   input.value = "";
+}); 
+
+input.addEventListener('keydown', (keydown) => {
+  if(keydown.keyCode == 13){
+    gitHubFinder(`?username=${input.value}`);
+    active();
+    input.value = "";
+  }
 }); 
 
 gitHubFinder(urlName);
